@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('includes.sidenav')
+@include('includes.sidenav')
+
     <div class="main">
     <h1>Users</h1>
     <table class="table">

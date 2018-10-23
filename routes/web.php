@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
@@ -28,3 +26,12 @@ Route::resource('admin/users', 'AdminUsersController', ['names' => [
     'store' => 'admin.users.store',
     'edit' => 'admin.users.edit',
 ]]);
+
+
+Route::resource('admin/cms', 'CmsController', ['names' => [
+    'index' => 'admin.cms.index',
+    'create' => 'admin.cms.create',
+    'store' => 'admin.cms.store',
+    'edit' => 'admin.cms.edit',
+]]);
+

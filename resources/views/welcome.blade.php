@@ -2,34 +2,29 @@
 {{--@include('includes.front_nav')--}}
 
 @include('layouts.app')
-
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">Boodschappenlijstjes!</h1>
-        <p>Met deze webapplicatie is het mogelijk om uw boodschappenlijstjes gemakkelijk bij te houden en op te slaan. Zo vergeet je nooit meer wat!</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Maak boodschappenlijstjes! &raquo;</a></p>
+
+
+        @foreach($titles as $title)
+        <h1 class="display-3">{{$title->title}}</h1>
+        <p>{{$title->description}}</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">{{$title->button}}</a></p>
     </div>
+@endforeach
 </div>
 
 <div class="container">
     <!-- Example row of columns -->
     <div class="row">
+        @foreach($cms as $kopjes)
         <div class="col-md-4">
-            <h2>Creeren</h2>
-            <p>Je kunt zelf uw eigen boodschappenlijstjes creeren. Je hebt de optie om meerdere lijsten te maken!</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Creeer nu! &raquo;</a></p>
+            <h2>{{$kopjes->title}}</h2>
+            <p>{{$kopjes->description}}</p>
+            <p><a class="btn btn-secondary" href="#" role="button">{{$kopjes->button}}</a></p>
         </div>
-        <div class="col-md-4">
-            <h2>Aanpassen</h2>
-            <p>De lijsten kun je eenvoudig en snel aanpassen. Je hebt de optie om 1 of meer boodscahppen lijsten aan te passen!</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Pas lijst aan! &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Verwijderen</h2>
-            <p>Je kunt makkelijk boodschappenlijstjes verwijderen. Je hebt de optie om meerdere lijsten aan te passen!</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Verwijder nu!&raquo;</a></p>
-        </div>
+        @endforeach
     </div>
 
     <hr>

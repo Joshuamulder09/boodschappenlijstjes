@@ -7,6 +7,6 @@
         <a href="/admin/users">Users</a>
         <a href="/admin/users/create">Create User</a>
     </div>
-    <a href="/">Edit hoofdpagina</a>
+    <a href="/admin/cms">Edit hoofdpagina</a>
     <a href="#">Boodschappenlijstjes</a>
 </div>

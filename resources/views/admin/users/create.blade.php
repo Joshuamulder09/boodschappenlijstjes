@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 
-@include('includes.sidenav')
+
 
 @section('content')
-
+    @include('includes.sidenav')
     <div class="main">
 
         <h1>Create Users</h1>
@@ -51,6 +51,6 @@
 
     {{--@include('includes.form-error')--}}
 
-
+    </div>
 
 @stop
