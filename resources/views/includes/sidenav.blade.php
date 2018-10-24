@@ -8,5 +8,5 @@
         <a href="/admin/users/create">Create User</a>
     </div>
     <a href="/admin/cms">Edit hoofdpagina</a>
-    <a href="#">Boodschappenlijstjes</a>
+    <a href="/admin/products">Producten</a>
 </div>

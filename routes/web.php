@@ -10,28 +10,38 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', 'HomeController@index');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 
+//Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'admin'], function () {
+
+    Route::get('/admin', 'AdminController@index');
+
+    Route::resource('admin/users', 'AdminUsersController', ['names' => [
+        'index' => 'admin.users.index',
+        'create' => 'admin.users.create',
+        'store' => 'admin.users.store',
+        'edit' => 'admin.users.edit',
+    ]]);
 
 
-Route::resource('admin/users', 'AdminUsersController', ['names' => [
-    'index' => 'admin.users.index',
-    'create' => 'admin.users.create',
-    'store' => 'admin.users.store',
-    'edit' => 'admin.users.edit',
-]]);
+    Route::resource('admin/cms', 'CmsController', ['names' => [
+        'index' => 'admin.cms.index',
+        'create' => 'admin.cms.create',
+        'store' => 'admin.cms.store',
+        'edit' => 'admin.cms.edit',
+    ]]);
 
+    Route::resource('admin/products', 'AdminProductsController', ['names' => [
+        'index' => 'admin.products.index',
+        'create' => 'admin.products.create',
+        'store' => 'admin.products.store',
+        'edit' => 'admin.products.edit',
+    ]]);  //crud);  //crud
 
-Route::resource('admin/cms', 'CmsController', ['names' => [
-    'index' => 'admin.cms.index',
-    'create' => 'admin.cms.create',
-    'store' => 'admin.cms.store',
-    'edit' => 'admin.cms.edit',
-]]);
-
+});
