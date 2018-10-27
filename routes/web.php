@@ -17,6 +17,21 @@ Route::get('/', 'HomeController@index');
 
 
 //Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'gebruiker'], function () {
+    Route::resource('user/boodschappenlijst', 'AdminProductsController', ['names' => [
+        'index' => 'user.boodschappenlijst.index',
+        'create' => 'user.boodschappenlijst.create',
+        'store' => 'user.boodschappenlijst.store',
+        'edit' => 'user.boodschappenlijst.edit',
+    ]]);
+
+    Route::resource('user/voorraad', 'UserVoorraadProductsController', ['names' => [
+        'index' => 'user.voorraad.index',
+        'create' => 'user.voorraad.create',
+        'store' => 'user.voorraad.store',
+        'edit' => 'user.voorraad.edit',
+    ]]);
+});
 
 Route::group(['middleware' => 'admin'], function () {
 
@@ -37,11 +52,14 @@ Route::group(['middleware' => 'admin'], function () {
         'edit' => 'admin.cms.edit',
     ]]);
 
-    Route::resource('admin/products', 'AdminProductsController', ['names' => [
-        'index' => 'admin.products.index',
-        'create' => 'admin.products.create',
-        'store' => 'admin.products.store',
-        'edit' => 'admin.products.edit',
-    ]]);  //crud);  //crud
+
+
+
+     //crud);  //crud
+
+//    Route::get('/admin/products', 'AdminProductEditController@destroy');
+//    Route::get('/admin/products', 'AdminProductEditController@plus');
+
 
 });
+

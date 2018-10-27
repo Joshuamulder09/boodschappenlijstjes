@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLijstsTable extends Migration
+class CreateVoorraadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateLijstsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lijsts', function (Blueprint $table) {
+        Schema::create('voorraads', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->index()->unsigned()->nullable();
+            $table->string('name');
+            $table->integer('aantal')->default('0');;
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateLijstsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lijsts');
+        Schema::dropIfExists('voorraads');
     }
 }

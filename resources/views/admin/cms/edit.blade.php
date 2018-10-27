@@ -23,6 +23,10 @@
                     {!! Form::text('button', null, ['class'=>'form-control'])!!}
                 </div>
                 <div class="form-group">
+                    {!! Form::label('url', 'Websitelink:') !!}
+                    {!! Form::text('url', null, ['class'=>'form-control'])!!}
+                </div>
+                <div class="form-group">
                     {!! Form::submit('Update kopje', ['class'=>'btn btn-primary col-sm-6']) !!}
                 </div>
                 {!! Form::close() !!}

@@ -1,4 +1,6 @@
+@if(Auth::user()->isAdmin())
 <div class="sidenav">
+
     <a href="/admin">Dashboard</a>
     <button class="dropdown-btn">Users
         <i class="fa fa-caret-down"></i>
@@ -8,5 +10,10 @@
         <a href="/admin/users/create">Create User</a>
     </div>
     <a href="/admin/cms">Edit hoofdpagina</a>
-    <a href="/admin/products">Producten</a>
+    @endif
+    {{--@if(Auth::user()->isGebruiker())--}}
+        {{--<a href="/user/boodschappenlijst">Boodschappenlijst</a>--}}
+        {{--<a href="/user/voorraad">Voorraad in huis</a>--}}
+    {{--@endif--}}
+
 </div>

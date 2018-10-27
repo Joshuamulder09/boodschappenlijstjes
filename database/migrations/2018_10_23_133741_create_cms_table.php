@@ -18,6 +18,7 @@ class CreateCmsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('button');
+            $table->string('url');
             $table->timestamps();
         });
     }

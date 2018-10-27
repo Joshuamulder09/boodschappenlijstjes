@@ -43,4 +43,26 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function isGebruiker()
+    {
+
+        if ($this->role->name == 'gebruiker' && $this->is_active == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
+
+    public function voorraadsProducts()
+    {
+        return $this->hasMany('App\Voorraad');
+    }
+
+
 }

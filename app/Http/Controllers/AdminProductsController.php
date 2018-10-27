@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\User;
+use App\Voorraad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminProductsController extends Controller
 {
@@ -14,8 +18,12 @@ class AdminProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('admin.products.index', compact('products'));
+
+        $userId = Auth::user()->id;
+        $products = Product::where('user_id',$userId)->get();
+        $voorraadproducts = Voorraad::where('user_id', $userId)->get();
+
+        return view('user.products.index', compact('products', 'voorraadproducts'));
     }
 
     /**
@@ -31,20 +39,32 @@ class AdminProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        Product::create($request->all());
+        $request->validate([
+            'name' => 'required',
+            'aantal' => 'required|integer',
+        ]);
 
-        return redirect('/admin/products');
+        $input = $request->all();
+
+
+        $user = Auth::user();
+
+
+        $user->products()->create($input); //met het ingelogde account een product opslaan in database
+
+
+        return redirect('/user/boodschappenlijst');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -55,7 +75,7 @@ class AdminProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -63,35 +83,38 @@ class AdminProductsController extends Controller
         $product = Product::findOrFail($id);
 
 
-        return view('admin.products.edit', compact('product'));
+        return view('user.products.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $products = Product::findOrFail($id);
+        Product::findOrFail($id)->increment('aantal');
 
-        $products->update($request->all());
-
-        return redirect('/admin/products');
+        return redirect('/user/boodschappenlijst');
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Product::findOrFail($id)->delete();
 
-        return redirect('/admin/products');
+        Product::findOrFail($id)->decrement('aantal');
+
+        DB::table('Products')->where('aantal', '=', 0)->delete();
+        return redirect('/user/boodschappenlijst');
     }
+
+
 }

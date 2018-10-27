@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\cms;
+use App\User;
+use App\Voorraad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CmsController extends Controller
+class UserVoorraadProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +17,11 @@ class CmsController extends Controller
      */
     public function index()
     {
-        $cms = DB::table('cms')->get();
 
+        $userId = Auth::user()->id;
+        $voorraadproducts = Voorraad::where('user_id', $userId)->get();
 
-        return view('admin.cms.index', ['cms' => $cms]);
+        return view('user.voorraad.index', compact('voorraadproducts'));
     }
 
     /**
@@ -34,7 +37,7 @@ class CmsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,12 +47,23 @@ class CmsController extends Controller
             'name' => 'required',
             'aantal' => 'required|integer',
         ]);
+
+        $input = $request->all();
+
+
+        $user = Auth::user();
+
+
+        $user->voorraadsProducts()->create($input); //met het ingelogde account een product opslaan in database
+
+
+        return redirect('/user/voorraad');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,41 +74,46 @@ class CmsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $cms = cms::findOrFail($id);
+        $voorraadproduct = Voorraad::findOrFail($id);
 
 
-        return view('admin.cms.edit', compact('cms'));
+        return view('user.products.edit', compact('voorraadproduct'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $cms = cms::findOrFail($id);
+        Voorraad::findOrFail($id)->increment('aantal');
 
-        $cms->update($request->all());
-
-        return redirect('/admin/cms');
+        return redirect('/user/voorraad');
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+
+        Voorraad::findOrFail($id)->decrement('aantal');
+
+        DB::table('Voorraads')->where('aantal', '=', -1)->delete();
+        return redirect('/user/voorraad');
     }
+
+
 }

@@ -5,14 +5,14 @@
 
     <div class="main">
         <h1>Edit homepage</h1>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered" align="center">
+        <thead>
             <tr>
                 <th>Id</th>
                 <th>Titel</th>
                 <th>Beschrijving</th>
                 <th>Text button</th>
-
+                <th>URL</th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +22,7 @@
         <td><a href="{{route('admin.cms.edit', $kopjes->id)}}">{{$kopjes->title}}</a></td>
     <td> {{$kopjes->description}} </td>
     <td> {{$kopjes->button}} </td>
+        <td> {{$kopjes->url}} </td>
     </tr>
 @endforeach
             </tbody>
